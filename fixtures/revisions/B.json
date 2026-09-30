@@ -1,0 +1,50 @@
+{
+  "clauses": [
+    {
+      "clause_id": "TKT-01",
+      "roles": [
+        "helpdesk_agent",
+        "shift_lead"
+      ],
+      "text": "티켓 종류는 mes_integration, line_terminal, reporting 중 하나로 기록한다."
+    },
+    {
+      "clause_id": "EVD-02",
+      "roles": [
+        "helpdesk_agent"
+      ],
+      "text": "첨부 증거 이름은 ticket-id_utc_source 형식으로 기록한다."
+    },
+    {
+      "clause_id": "SEC-03",
+      "roles": [
+        "helpdesk_agent",
+        "shift_lead"
+      ],
+      "text": "티켓과 첨부에는 비밀번호, 토큰, 개인 정보를 기록하지 않는다."
+    },
+    {
+      "clause_id": "HAND-04",
+      "roles": [
+        "shift_lead"
+      ],
+      "text": "교대 인수인계 메모에는 열린 티켓 ID와 원문 출처 ID를 기록한다."
+    },
+    {
+      "clause_id": "NEW-06",
+      "roles": [
+        "helpdesk_agent",
+        "shift_lead"
+      ],
+      "text": "증거에는 사건 시각과 자료 가용 시각을 별도로 기록한다."
+    }
+  ],
+  "document_id": "IT-SOP-007",
+  "effective_at": "2026-10-02T00:00:00Z",
+  "revision": "B",
+  "site": "DEMO-PLANT-A",
+  "state": "approved_future",
+  "synthetic": true,
+  "timezone": "UTC",
+  "title": "모의 공장 IT 티켓 기록 및 인수인계"
+}

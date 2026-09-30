@@ -1,0 +1,57 @@
+{
+  "dependencies": [
+    {
+      "briefing_id": "BR-TKT",
+      "clause_ids": [
+        "TKT-01"
+      ],
+      "question_ids": [
+        "Q-TKT"
+      ],
+      "roles": [
+        "helpdesk_agent",
+        "shift_lead"
+      ]
+    },
+    {
+      "briefing_id": "BR-EVD",
+      "clause_ids": [
+        "EVD-02",
+        "NEW-06"
+      ],
+      "question_ids": [
+        "Q-EVD"
+      ],
+      "roles": [
+        "helpdesk_agent"
+      ]
+    },
+    {
+      "briefing_id": "BR-HAND",
+      "clause_ids": [
+        "HAND-04",
+        "NEW-06"
+      ],
+      "question_ids": [
+        "Q-HAND"
+      ],
+      "roles": [
+        "shift_lead"
+      ]
+    },
+    {
+      "briefing_id": "BR-OLD",
+      "clause_ids": [
+        "OLD-05"
+      ],
+      "question_ids": [],
+      "roles": [
+        "helpdesk_agent",
+        "shift_lead"
+      ]
+    }
+  ],
+  "document_id": "IT-SOP-007",
+  "mapping_version": "1",
+  "unknown_dependency_policy": "block_completeness"
+}

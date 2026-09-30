@@ -1,0 +1,28 @@
+{
+  "clauses": [
+    {
+      "clause_id": "TKT-01",
+      "roles": [
+        "helpdesk_agent",
+        "shift_lead"
+      ],
+      "text": "모든 티켓을 자동 종료한다."
+    },
+    {
+      "clause_id": "SEC-03",
+      "roles": [
+        "helpdesk_agent",
+        "shift_lead"
+      ],
+      "text": "티켓과 첨부에는 비밀번호, 토큰, 개인 정보를 기록하지 않는다."
+    }
+  ],
+  "document_id": "IT-SOP-007",
+  "effective_at": null,
+  "revision": "C",
+  "site": "DEMO-PLANT-A",
+  "state": "rejected_draft",
+  "synthetic": true,
+  "timezone": "UTC",
+  "title": "모의 공장 IT 티켓 기록 및 인수인계"
+}

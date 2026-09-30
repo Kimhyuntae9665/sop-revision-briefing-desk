@@ -1,0 +1,25 @@
+{
+  "dependencies.json": {
+    "sha256": "f049b8e863367ac7db23f8f0fe61d3ed4a3e7eac28bf21198217a7abc1b509e2"
+  },
+  "document_id": "IT-SOP-007",
+  "events.json": {
+    "sha256": "6a43615fa7e911b20fbb65795556db7da07b9e4fe1c293e7a7c4f54e30253eec"
+  },
+  "fixture_version": "SOP-REVISION-FICTIONAL-v1",
+  "revisions": {
+    "A": {
+      "path": "revisions/A.json",
+      "sha256": "2c2c97a3cfb548a99a59318ed4ee1767c0322d55e7b5602e3416a67794ce3e6b"
+    },
+    "B": {
+      "path": "revisions/B.json",
+      "sha256": "b9fce36161c78a77e77a1d1fc8bf872d185ba9fcc51430540fd8c6f3fae9722c"
+    },
+    "C": {
+      "path": "revisions/C.json",
+      "sha256": "c79ff0e461388cec23568d96f0f53c62834dcd7202a074ef8aca2a72b755469d"
+    }
+  },
+  "synthetic": true
+}

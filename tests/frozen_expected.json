@@ -1,0 +1,68 @@
+{
+  "diff_A_B": {
+    "added": [
+      "NEW-06"
+    ],
+    "changed": [
+      "TKT-01",
+      "EVD-02",
+      "HAND-04"
+    ],
+    "removed": [
+      "OLD-05"
+    ],
+    "unchanged": [
+      "SEC-03"
+    ]
+  },
+  "role_briefings": {
+    "helpdesk_agent": [
+      "BR-TKT",
+      "BR-EVD",
+      "BR-OLD"
+    ],
+    "shift_lead": [
+      "BR-TKT",
+      "BR-HAND",
+      "BR-OLD"
+    ]
+  },
+  "rules": [
+    "draft_not_approved",
+    "approved_future_not_current",
+    "published_not_effective_until_timestamp",
+    "ack_not_assessment",
+    "old_ack_does_not_certify_B",
+    "unknown_dependency_blocks_completeness",
+    "changed_clause_invalidates_only_declared_dependent_briefing"
+  ],
+  "snapshots": [
+    {
+      "A_ack_helpdesk_BR_TKT": true,
+      "B_ack_helpdesk_BR_TKT": false,
+      "B_assigned": false,
+      "as_of": "2026-10-01T10:00:00Z",
+      "current": "A",
+      "rejected": [
+        "C"
+      ],
+      "upcoming": "B"
+    },
+    {
+      "B_ack_allowed": false,
+      "B_assigned": false,
+      "as_of": "2026-10-02T00:30:00Z",
+      "current": "B",
+      "upcoming": null
+    },
+    {
+      "B_ack_helpdesk_BR_TKT": false,
+      "B_assigned": true,
+      "as_of": "2026-10-02T02:00:00Z",
+      "current": "B",
+      "upcoming": null
+    }
+  ],
+  "source_manifest_sha256": "cd8a0120907226c4831ae7e2399921f57d8870e69d45f4a0a1b7b605065a1b75",
+  "version": "P13-FROZEN-GOLD-v1"
+}

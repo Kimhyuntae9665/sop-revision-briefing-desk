@@ -1,0 +1,89 @@
+[
+  {
+    "at": "2026-08-20T00:00:00Z",
+    "event_id": "EV-A-1",
+    "kind": "drafted",
+    "revision": "A"
+  },
+  {
+    "at": "2026-08-25T00:00:00Z",
+    "event_id": "EV-A-2",
+    "kind": "content_approved",
+    "revision": "A"
+  },
+  {
+    "at": "2026-08-28T00:00:00Z",
+    "effective_at": "2026-09-01T00:00:00Z",
+    "event_id": "EV-A-3",
+    "kind": "published",
+    "revision": "A"
+  },
+  {
+    "at": "2026-09-01T01:00:00Z",
+    "event_id": "EV-A-4",
+    "kind": "assigned",
+    "revision": "A",
+    "roles": [
+      "helpdesk_agent",
+      "shift_lead"
+    ]
+  },
+  {
+    "at": "2026-09-10T08:00:00Z",
+    "briefing_id": "BR-TKT",
+    "event_id": "EV-A-5",
+    "kind": "read_acknowledged",
+    "revision": "A",
+    "role": "helpdesk_agent"
+  },
+  {
+    "at": "2026-09-11T08:00:00Z",
+    "briefing_id": "BR-TKT",
+    "event_id": "EV-A-6",
+    "kind": "assessment_recorded",
+    "result": "self_check_passed",
+    "revision": "A",
+    "role": "helpdesk_agent"
+  },
+  {
+    "at": "2026-09-20T00:00:00Z",
+    "event_id": "EV-B-1",
+    "kind": "drafted",
+    "revision": "B"
+  },
+  {
+    "at": "2026-09-28T00:00:00Z",
+    "event_id": "EV-B-2",
+    "kind": "content_approved",
+    "revision": "B"
+  },
+  {
+    "at": "2026-09-29T00:00:00Z",
+    "effective_at": "2026-10-02T00:00:00Z",
+    "event_id": "EV-B-3",
+    "kind": "published",
+    "revision": "B"
+  },
+  {
+    "at": "2026-10-02T01:00:00Z",
+    "event_id": "EV-B-4",
+    "kind": "assigned",
+    "revision": "B",
+    "roles": [
+      "helpdesk_agent",
+      "shift_lead"
+    ]
+  },
+  {
+    "at": "2026-09-29T00:00:00Z",
+    "event_id": "EV-C-1",
+    "kind": "drafted",
+    "revision": "C"
+  },
+  {
+    "at": "2026-09-30T00:00:00Z",
+    "event_id": "EV-C-2",
+    "kind": "rejected",
+    "revision": "C"
+  }
+]
