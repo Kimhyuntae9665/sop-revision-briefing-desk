@@ -5,11 +5,12 @@ This module does not call the model or approve its summaries.
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 from sop_desk.core import Desk
 
-PROTOCOL = json.loads((Path(__file__).resolve().parents[1] / "docs" / "model-v1-frozen.json").read_text())
+PROTOCOL = json.loads((Path(__file__).resolve().parents[1] / "docs" / "model-v1.1-frozen.json").read_text())
 FIELDS = ("clause_id", "change_type", "before_source_id", "before_quote",
           "after_source_id", "after_quote", "summary_ko")
 
@@ -58,6 +59,8 @@ def build_packet(desk: Desk, as_of: str, role: str, site: str):
 def check_draft(packet, output):
     """Return a mechanical result only; semantic support requires a human review."""
     pairs = packet["model_input"]["pairs"]
+    if not isinstance(pairs, list) or len(pairs) != 4:
+        return {"ok": False, "reason": "packet_scope_or_size"}
     if not isinstance(output, dict) or set(output) != {"protocol_id", "draft_only", "summaries"}:
         return {"ok": False, "reason": "shape"}
     if output["protocol_id"] != PROTOCOL["protocol_id"] or output["draft_only"] is not True:
@@ -72,7 +75,7 @@ def check_draft(packet, output):
             if row[key] != pair[key]:
                 return {"ok": False, "reason": "source_or_kind_mismatch", "clause_id": pair["clause_id"]}
         summary = row["summary_ko"]
-        if not isinstance(summary, str) or not summary.strip() or len(summary) > 120:
+        if not isinstance(summary, str) or not summary.strip() or len(summary) > 120 or not re.search("[가-힣]", summary):
             return {"ok": False, "reason": "summary_length", "clause_id": pair["clause_id"]}
     return {"ok": True, "status": "mechanical_pass_human_review_required",
             "meaning_verified": False, "content_approved": False}

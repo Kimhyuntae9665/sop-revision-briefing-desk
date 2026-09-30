@@ -15,3 +15,5 @@
 
 - Temporal receipt fix: matched local receipts now require receipt.at <= as_of before status or assessment eligibility. Tested 00:30, 01:30, 01:59:59 and exact 02:00 boundary after a later read/self-check; 01:30 self-check mutation fails without a then-admitted read. A source becomes historical_superseded at B effective time. Native Chrome replays the earlier view after later receipts and inspects the historical A source.
 - Optional model protocol v1 is frozen but unexecuted. CPU tests check both declared role-admitted packets, exact source quotes, complete four-row output, and blocked cross-role/site inputs. A mechanically valid synthetic draft remains human-review-required; these are engineering tests, not model results.
+
+- Independent review of ece5cb3 found two low-severity protocol format gaps. Before inference, v1.1 was saved alongside v1; CPU gate now rejects shortened packets and summaries without Hangul. No model outcome informed the revision.

@@ -36,7 +36,7 @@ class DraftProtocolTests(unittest.TestCase):
         packet = build_packet(self.desk, "2026-10-01T10:00:00Z", "helpdesk_agent", SITE)
         rows = [dict(pair, summary_ko="원문 조항 표현이 변경되었습니다.")
                 for pair in packet["model_input"]["pairs"]]
-        output = {"protocol_id": "P13-SOP-CITED-DRAFT-v1",
+        output = {"protocol_id": "P13-SOP-CITED-DRAFT-v1.1",
                   "draft_only": True, "summaries": rows}
         self.assertEqual(check_draft(packet, output)["status"],
                          "mechanical_pass_human_review_required")
@@ -46,6 +46,13 @@ class DraftProtocolTests(unittest.TestCase):
         altered = copy.deepcopy(output)
         altered["summaries"].pop()
         self.assertEqual(check_draft(packet, altered)["reason"], "incomplete")
+        shortened = copy.deepcopy(packet)
+        shortened["model_input"]["pairs"].pop()
+        self.assertEqual(check_draft(shortened, dict(output, summaries=rows[:-1]))["reason"],
+                         "packet_scope_or_size")
+        altered = copy.deepcopy(output)
+        altered["summaries"][0]["summary_ko"] = "Changed source text"
+        self.assertEqual(check_draft(packet, altered)["reason"], "summary_length")
         altered = copy.deepcopy(output)
         altered["summaries"][0]["content_approved"] = True
         self.assertEqual(check_draft(packet, altered)["reason"], "row_shape")
