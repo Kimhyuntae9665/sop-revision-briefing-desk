@@ -1,0 +1,30 @@
+{
+  "at": "2026-09-30T22:19:06.148390+00:00",
+  "request_wall_s": 8.17,
+  "http_request_count": 1,
+  "done": true,
+  "done_reason": "stop",
+  "ollama_metrics": {
+    "total_duration": 8168739984,
+    "load_duration": 163941959,
+    "prompt_eval_duration": 168098107,
+    "prompt_eval_count": 580,
+    "eval_duration": 6120033404,
+    "eval_count": 498
+  },
+  "content_chars": 1315,
+  "thinking_chars": null,
+  "resources_after": {
+    "gpu_csv_mib_percent": "3556, 4249, 88",
+    "meminfo_kib": {
+      "MemTotal": 32806192,
+      "MemAvailable": 24790928
+    }
+  },
+  "structural_status": {
+    "ok": false,
+    "reason": "source_or_kind_mismatch",
+    "clause_id": "EVD-02"
+  },
+  "semantic_status": "human_review_pending"
+}

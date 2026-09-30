@@ -1,0 +1,95 @@
+{
+  "at": "2026-09-30T22:21:58.909626+00:00",
+  "case_id": "D1-helpdesk-upcoming",
+  "protocol_id": "P13-SOP-CITED-DRAFT-v1.2",
+  "development_only": true,
+  "raw_response": "raw-http-response.json",
+  "preflight": "preflight.json",
+  "output_done": true,
+  "output_reason": "stop",
+  "json_parse": true,
+  "expected_rows": 4,
+  "actual_rows": 4,
+  "exact_quote_and_source_id_rows": 4,
+  "exact_all_source_and_kind_rows": 3,
+  "cpu_validator": {
+    "ok": false,
+    "reason": "source_or_kind_mismatch",
+    "clause_id": "EVD-02"
+  },
+  "semantic_review_count": {
+    "supported": 2,
+    "incorrect_value_change": 1,
+    "incomplete_changed_values": 1
+  },
+  "packet_admitted_as_draft": false,
+  "human_semantic_scope": "Assistant source-text review of familiar synthetic development clauses; no independent manufacturing expert or held-out evaluation.",
+  "details": [
+    {
+      "expected_clause_id": "EVD-02",
+      "actual_clause_id": "EVD-:02",
+      "exact_field_match": {
+        "clause_id": false,
+        "change_type": true,
+        "before_source_id": true,
+        "before_quote": true,
+        "after_source_id": true,
+        "after_quote": true
+      },
+      "exact_source_and_kind": false,
+      "semantic_source_text_review": "incorrect_value_change",
+      "semantic_reason": "The old and new filename formats both contain utc. The literal addition is _source; the summary instead says utc was added."
+    },
+    {
+      "expected_clause_id": "NEW-06",
+      "actual_clause_id": "NEW-06",
+      "exact_field_match": {
+        "clause_id": true,
+        "change_type": true,
+        "before_source_id": true,
+        "before_quote": true,
+        "after_source_id": true,
+        "after_quote": true
+      },
+      "exact_source_and_kind": true,
+      "semantic_source_text_review": "supported",
+      "semantic_reason": "The added clause requires separate recording of event time and source availability time."
+    },
+    {
+      "expected_clause_id": "OLD-05",
+      "actual_clause_id": "OLD-05",
+      "exact_field_match": {
+        "clause_id": true,
+        "change_type": true,
+        "before_source_id": true,
+        "before_quote": true,
+        "after_source_id": true,
+        "after_quote": true
+      },
+      "exact_source_and_kind": true,
+      "semantic_source_text_review": "supported",
+      "semantic_reason": "The removed clause had required a separate email-attachment index table."
+    },
+    {
+      "expected_clause_id": "TKT-01",
+      "actual_clause_id": "TKT-01",
+      "exact_field_match": {
+        "clause_id": true,
+        "change_type": true,
+        "before_source_id": true,
+        "before_quote": true,
+        "after_source_id": true,
+        "after_quote": true
+      },
+      "exact_source_and_kind": true,
+      "semantic_source_text_review": "incomplete_changed_values",
+      "semantic_reason": "The summary names mes_integration but compresses line_terminal and reporting as etc.; it omits two exact new allowed values."
+    }
+  ],
+  "format_checks": {
+    "top_level_keys_protocol_and_draft_flag": true,
+    "exactly_four_rows": true,
+    "each_row_has_exact_required_keys": true,
+    "each_summary_nonempty_hangul_at_most_120_chars": true
+  }
+}

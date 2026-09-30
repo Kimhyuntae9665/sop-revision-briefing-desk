@@ -1,0 +1,9 @@
+{
+  "at": "2026-09-30T22:23:27.654929+00:00",
+  "v1_2_attempt_started": true,
+  "v1_2_outcome_done": true,
+  "shared_lock_free": true,
+  "timeout_marker_present": false,
+  "runner_process_present": false,
+  "gpu_lease_released": true
+}
