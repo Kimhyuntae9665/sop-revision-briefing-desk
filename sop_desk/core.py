@@ -165,7 +165,8 @@ class Desk:
                 status = "upcoming_no_action" if target != current else \
                          "awaiting_assignment" if not assigned else "pending_read"
                 fingerprint = self._fingerprint(target, role, site, entry["briefing_id"])
-                matched = [r for r in receipts if r.get("fingerprint") == fingerprint]
+                matched = [r for r in receipts if r.get("fingerprint") == fingerprint and
+                           parse_time(r["at"]) <= at]
                 if matched:
                     status = "assessed_self_check" if any(r["kind"] == "assessment_recorded" for r in matched) \
                              else "read_acknowledged"
@@ -216,6 +217,7 @@ class Desk:
                 self.data["manifest"]["revisions"][revision]["sha256"],
                 "state": "rejected_draft" if lifecycle["rejected"] else
                          "current" if lifecycle["effective"] and self._selected(at)[0] == revision else
+                         "historical_superseded" if lifecycle["effective"] else
                          "approved_future" if lifecycle["approved"] and lifecycle["published"] else "draft",
                 "effective_at": self.data["revisions"][revision]["effective_at"],
                 "site": site}

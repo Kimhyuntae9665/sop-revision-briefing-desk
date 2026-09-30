@@ -103,6 +103,42 @@ class ContractTests(unittest.TestCase):
         self.assertTrue(all(q["status"] == "pending_read" for q in after["queue"]))
         self.assertTrue(all(not r["current_binding"] for r in after["history"]))
 
+    def test_receipts_admitted_only_at_or_before_as_of(self):
+        store = ReceiptStore(self.desk)
+        read = store.submit("read_acknowledged", make_payload(self.desk, "BR-TKT", "REQUEST-TIMED-READ"))
+        assessed = store.submit("assessment_recorded", dict(
+            make_payload(self.desk, "BR-TKT", "REQUEST-TIMED-CHECK"), answer="TKT-01"))
+        cases = [
+            ("2026-10-02T00:30:00Z", "awaiting_assignment", False),
+            ("2026-10-02T01:30:00Z", "pending_read", True),
+            ("2026-10-02T01:59:59Z", "pending_read", True),
+            ("2026-10-02T02:00:00Z", "assessed_self_check", True),
+        ]
+        for when, expected, allowed in cases:
+            with self.subTest(when=when):
+                state = self.desk.state(when, receipts=store.all())
+                item = next(q for q in state["queue"] if q["briefing_id"] == "BR-TKT")
+                self.assertEqual(item["status"], expected)
+                self.assertEqual(item["ack_allowed"], allowed)
+                ids = {r["receipt_id"] for r in state["history"]}
+                self.assertEqual(read["receipt_id"] in ids, when >= read["at"])
+                self.assertEqual(assessed["receipt_id"] in ids, when >= assessed["at"])
+        early = self.desk.state("2026-10-02T01:30:00Z")
+        item = next(q for q in early["queue"] if q["briefing_id"] == "BR-TKT")
+        payload = {"as_of": early["as_of"], "role": "helpdesk_agent", "site": SITE,
+                   "briefing_id": "BR-TKT", "fingerprint": item["fingerprint"],
+                   "request_id": "REQUEST-TIMED-EARLY", "answer": "TKT-01"}
+        with self.assertRaisesRegex(ReceiptError, "read_ack_required"):
+            store.submit("assessment_recorded", payload)
+        self.assertEqual(len(store.all()), 2)
+
+    def test_superseded_source_state_at_effective_boundary(self):
+        self.assertEqual(self.desk.source("A", "TKT-01", "2026-10-01T23:59:59Z")["state"], "current")
+        self.assertEqual(self.desk.source("A", "TKT-01", "2026-10-02T00:00:00Z")["state"],
+                         "historical_superseded")
+        self.assertEqual(self.desk.source("B", "TKT-01", "2026-10-02T00:00:00Z")["state"],
+                         "current")
+
     def test_source_scope_and_draft_state(self):
         source = self.desk.source("B", "TKT-01", DEFAULT_AS_OF)
         self.assertEqual(source["state"], "approved_future")

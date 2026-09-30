@@ -96,6 +96,24 @@ async def main():
             assert exported["claim_limit"].startswith("Reading")
             await page.screenshot(path=str(OUT/"05-assessment-and-export.png"),full_page=True)
             await asyncio.sleep(.8)
+            # Later receipts cannot change an earlier view or satisfy its prerequisites.
+            await page.locator("#as-of").select_option("2026-10-02T01:30:00Z")
+            await expect(page.locator(".queue-card").first).to_contain_text("읽음 확인 대기")
+            assert await page.locator("#history li").count()==2
+            assert not await page.locator("#history").get_by_text("RC-",exact=False).count()
+            assert await page.locator(".queue-card").first.get_by_role("button",name="원문 조항 점검 기록").count()==0
+            await page.screenshot(path=str(OUT/"08-early-view-after-later-receipts.png"),full_page=True)
+            await page.locator("#as-of").select_option("2026-10-02T00:30:00Z")
+            await expect(page.locator(".queue-card").first).to_contain_text("배정 대기")
+            assert await page.locator("#history li").count()==2
+            await page.locator("#as-of").select_option("2026-10-02T02:00:00Z")
+            await expect(page.locator(".queue-card").first).to_contain_text("원문 조항 점검 기록됨")
+            assert await page.locator("#history li").count()==4
+            older=page.locator(".diff-row").filter(has_text="TKT-01").locator(".source-button").first
+            await older.click()
+            await expect(page.locator("#source-meta")).to_contain_text("historical_superseded")
+            await page.screenshot(path=str(OUT/"09-historical-superseded-source.png"),full_page=True)
+            await page.keyboard.press("Escape")
             # A delayed prior scope response must never replace the new selection.
             async def delay_state(route):
                 await asyncio.sleep(.4)
@@ -150,7 +168,7 @@ async def main():
             await phone.screenshot(path=str(OUT/"07-mobile-390px.png"),full_page=True)
             await mobile.close()
             await browser.close()
-            print("browser: current/future, source keyboard, assignment gate, read, self-check, export, stale state/source, denied site, mobile PASS")
+            print("browser: current/future, source keyboard, temporal receipt gates, superseded source, assignment gate, read, self-check, export, stale state/source, denied site, mobile PASS")
             print("mobile",dims,sizes)
             print("media",[(x.name,x.stat().st_size) for x in sorted(OUT.glob("*")) if x.is_file()])
     finally:

@@ -1,0 +1,149 @@
+{
+  "development_cases": [
+    {
+      "as_of": "2026-10-01T10:00:00Z",
+      "case_id": "D1-helpdesk-upcoming",
+      "expected_clause_ids": [
+        "EVD-02",
+        "NEW-06",
+        "OLD-05",
+        "TKT-01"
+      ],
+      "expected_current_revision": "A",
+      "expected_upcoming_revision": "B",
+      "role": "helpdesk_agent",
+      "site": "DEMO-PLANT-A"
+    },
+    {
+      "as_of": "2026-10-02T02:00:00Z",
+      "case_id": "D2-shift-lead-effective",
+      "expected_clause_ids": [
+        "HAND-04",
+        "NEW-06",
+        "OLD-05",
+        "TKT-01"
+      ],
+      "expected_current_revision": "B",
+      "expected_upcoming_revision": null,
+      "role": "shift_lead",
+      "site": "DEMO-PLANT-A"
+    }
+  ],
+  "evaluation_status": "development-only protocol; zero P13 model calls; no held-out model evaluation",
+  "issued_at_utc": "2026-09-30",
+  "mechanical_checks": [
+    "exact four-item clause set and order",
+    "exact change_type",
+    "exact source IDs and full source quote bytes",
+    "empty missing-side ID and quote",
+    "nonempty short Korean summary",
+    "no extra keys or model status/approval field",
+    "source hash binding from server envelope",
+    "cross-role clauses absent"
+  ],
+  "model_input_keys": [
+    "document_id",
+    "site",
+    "role",
+    "pairs"
+  ],
+  "output_schema": {
+    "additionalProperties": false,
+    "properties": {
+      "draft_only": {
+        "enum": [
+          true
+        ],
+        "type": "boolean"
+      },
+      "protocol_id": {
+        "enum": [
+          "P13-SOP-CITED-DRAFT-v1"
+        ],
+        "type": "string"
+      },
+      "summaries": {
+        "items": {
+          "additionalProperties": false,
+          "properties": {
+            "after_quote": {
+              "type": "string"
+            },
+            "after_source_id": {
+              "type": "string"
+            },
+            "before_quote": {
+              "type": "string"
+            },
+            "before_source_id": {
+              "type": "string"
+            },
+            "change_type": {
+              "enum": [
+                "changed",
+                "added",
+                "removed"
+              ],
+              "type": "string"
+            },
+            "clause_id": {
+              "type": "string"
+            },
+            "summary_ko": {
+              "maxLength": 120,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "clause_id",
+            "change_type",
+            "before_source_id",
+            "before_quote",
+            "after_source_id",
+            "after_quote",
+            "summary_ko"
+          ],
+          "type": "object"
+        },
+        "maxItems": 4,
+        "minItems": 4,
+        "type": "array"
+      }
+    },
+    "required": [
+      "protocol_id",
+      "draft_only",
+      "summaries"
+    ],
+    "type": "object"
+  },
+  "protocol_id": "P13-SOP-CITED-DRAFT-v1",
+  "runtime_proposal": {
+    "concurrency": 1,
+    "local_loopback_only": true,
+    "model_tag": "qwen3:4b",
+    "num_ctx": 4096,
+    "num_predict": 768,
+    "requires_actual_digest_and_template_preflight": true,
+    "requires_gpu_lease": true,
+    "shift": false,
+    "temperature": 0,
+    "think": false,
+    "truncate": false
+  },
+  "semantic_gate": "A human reviewer must check every summary against both source texts for unsupported causal, applicability, value or authority claims. Exact quotes alone are insufficient. No model output automatically enters effective SOP, briefing assignment or acknowledgment state.",
+  "source_contract": {
+    "contract_sha256": "b08c4b1ef12b2332a78ab3df635775f8c0a8a286e531b97ab22dbd611430e421",
+    "expected_test_sha256": "edaea409dd1b46454e78a350640ed0ae4d5cd9aa2c55add769b2372265131da5",
+    "fixture_version": "SOP-REVISION-FICTIONAL-v1",
+    "manifest_sha256": "665f70d8fdd5c808d7ef70c51b8a79c3a7ed6844046a4149be1978955291f281",
+    "mapping_sha256": "f049b8e863367ac7db23f8f0fe61d3ed4a3e7eac28bf21198217a7abc1b509e2",
+    "project_commit": "6f53157a5ede8cd7c4c901203c9736c22ac203a2",
+    "revision_A_sha256": "2c2c97a3cfb548a99a59318ed4ee1767c0322d55e7b5602e3416a67794ce3e6b",
+    "revision_B_sha256": "b9fce36161c78a77e77a1d1fc8bf872d185ba9fcc51430540fd8c6f3fae9722c",
+    "revision_C_sha256": "c79ff0e461388cec23568d96f0f53c62834dcd7202a074ef8aca2a72b755469d"
+  },
+  "system_prompt": "당신은 독립 합성 공장 IT SOP의 변경 설명 초안을 작성한다. 입력에는 서버가 이 역할에 허용한 A/B 원문 조항 쌍만 있다. 정확히 각 쌍에 하나의 한국어 짧은 초안을 만든다. 조항 ID, 변경 종류, 원문 ID와 문장은 입력 그대로 복사한다. 없는 쪽은 빈 문자열로 둔다. 새 사실, 이유, 숫자, 적용·발효·승인·배정·교육 완료·역량·운영 권한을 추정하거나 주장하지 않는다. 내용 승인과 상태 판정은 서버와 사람이 한다. 제공된 JSON 스키마 외 텍스트를 출력하지 않는다.",
+  "user_prefix": "/no_think\n다음 admitted_pairs만 사용해 변경 설명 초안을 작성하세요. pairs의 순서와 개수를 유지하고, before/after 원문 ID와 문장을 정확히 옮기세요. summary_ko는 한 쌍의 문자 그대로의 변화만 120자 이하로 설명하세요. 그 밖의 상태나 효과는 쓰지 마세요.\n"
+}
