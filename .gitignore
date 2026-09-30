@@ -3,3 +3,5 @@ __pycache__/
 .venv/
 *.log
 AGENTS.md
+artifacts/demo/raw-video/
+artifacts/pw-runtime/

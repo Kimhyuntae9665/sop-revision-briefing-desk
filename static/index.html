@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>모의 SOP 개정 브리핑 데스크</title>
+<link rel="stylesheet" href="/styles.css">
+<script src="/app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">본문으로 이동</a>
+<header class="top">
+  <div><p class="eyebrow">FICTIONAL FACTORY IT · IT-SOP-007</p><h1>SOP 개정 브리핑 데스크</h1></div>
+  <p class="top-note">개정 비교 → 역할별 브리핑 → 읽음 확인 → 별도 원문 점검</p>
+</header>
+<main id="main">
+  <section class="controls panel" aria-label="조회 맥락">
+    <label>조회 시점
+      <select id="as-of">
+        <option value="2026-10-01T10:00:00Z">10월 1일 · A 발효 / B 예정</option>
+        <option value="2026-10-02T00:30:00Z">10월 2일 00:30 · B 발효 / 미배정</option>
+        <option value="2026-10-02T02:00:00Z">10월 2일 02:00 · B 발효 / 배정</option>
+      </select>
+    </label>
+    <label>데모 역할
+      <select id="role">
+        <option value="helpdesk_agent">헬프데스크 담당</option>
+        <option value="shift_lead">교대 인계 담당</option>
+      </select>
+    </label>
+    <label>모의 사이트
+      <select id="site">
+        <option value="DEMO-PLANT-A">DEMO-PLANT-A</option>
+        <option value="DEMO-PLANT-B">DEMO-PLANT-B · 조회 불가</option>
+      </select>
+    </label>
+  </section>
+  <p id="status" class="status" role="status" aria-live="polite">원문을 확인하고 있습니다.</p>
+  <section class="headline panel" aria-label="개정 상태">
+    <div><p class="eyebrow">현재 적용 판</p><strong id="current-revision">—</strong><p id="current-note"></p></div>
+    <div><p class="eyebrow">다음 또는 제외 판</p><strong id="upcoming-revision">—</strong><p id="upcoming-note"></p></div>
+    <div><p class="eyebrow">완전성·확인 경계</p><strong id="coverage-state">—</strong><p>읽음 확인은 이해·역량·운영 권한의 증명이 아닙니다.</p></div>
+  </section>
+  <div class="workspace">
+    <section class="panel diff-panel" aria-labelledby="diff-title">
+      <div class="section-heading"><div><p class="eyebrow">01 · SOURCE DIFF</p><h2 id="diff-title">A ↔ B 조항 대조</h2></div><span id="diff-count" class="count"></span></div>
+      <p class="help">왼쪽은 기존 A, 오른쪽은 승인 후 발효 예정이었던 B입니다. 각 원문을 열어 해시와 상태를 확인하세요.</p>
+      <div class="diff-head" aria-hidden="true"><span>개정 A</span><span>개정 B</span></div>
+      <div id="diff-rows" class="diff-rows"></div>
+    </section>
+    <div class="side">
+      <section class="panel" aria-labelledby="briefing-title">
+        <div class="section-heading"><div><p class="eyebrow">02 · IMPACT</p><h2 id="briefing-title">변경 조항 브리핑</h2></div><span id="briefing-count" class="count"></span></div>
+        <p class="help">선언된 조항 의존 관계만 영향을 받습니다. 모르는 의존 관계는 완전성 확인을 막습니다.</p>
+        <div id="briefings" class="briefings"></div>
+      </section>
+      <section class="panel" aria-labelledby="queue-title">
+        <div class="section-heading"><div><p class="eyebrow">03 · ROLE QUEUE</p><h2 id="queue-title">역할별 확인 대기열</h2></div><span id="queue-count" class="count"></span></div>
+        <p class="help">발효·배정 전에는 새 판의 읽음 확인을 기록하지 않습니다.</p>
+        <div id="queue" class="queue"></div>
+      </section>
+      <section class="panel" aria-labelledby="history-title">
+        <div class="section-heading"><div><p class="eyebrow">04 · RECEIPTS</p><h2 id="history-title">확인 이력</h2></div></div>
+        <p class="help">이전 판의 완료 이력은 보존되지만 새 판을 대신하지 않습니다.</p>
+        <ol id="history" class="history"></ol>
+      </section>
+    </div>
+  </div>
+</main>
+<dialog id="source-dialog" aria-labelledby="source-title">
+  <div class="dialog-head"><h2 id="source-title">원문 조항</h2><button id="source-close" type="button">닫기</button></div>
+  <p id="source-meta" class="help"></p>
+  <blockquote id="source-text"></blockquote>
+  <p id="source-hash" class="hash"></p>
+</dialog>
+<footer>원문·직원 모두 독립 합성 예시입니다. 생산 설비 제어, 실제 교육 승인, SSO 또는 외부 시스템 쓰기는 없습니다.</footer>
+</body>
+</html>
