@@ -46,25 +46,25 @@ Python 3.10+ 표준 라이브러리만 필요합니다.
 
 선택적인 로컬 Qwen 전처리 재현에는 기존 Ollama qwen3:4b와 requirements-model.txt의 CPU tokenizer가 필요합니다. 이 의존성은 기본 CPU 화면·계약 테스트에는 필요하지 않습니다. 실패한 개발 요청을 재실행하지 마세요.
 
-실제 화면 검사는 설치된 Playwright와 Chrome, 시스템 ffmpeg가 있는 환경에서 python3 tests/browser_demo.py 로 수행했습니다. 이 브라우저 검사는 CI의 필수 게이트에 포함되지 않습니다.
+실제 화면 검사는 설치된 Playwright와 Chrome, 시스템 ffmpeg가 있는 환경에서 `python3 tests/browser_demo.py`로 수행했습니다. 이 브라우저 검사는 CI의 필수 게이트에 포함되지 않습니다.
 
 ## 실제 화면과 검증
 
-**27개 CPU 계약 테스트**와 JavaScript 구문 검사, 실제 Chrome 시나리오가 통과했습니다. 이는 이 작은 합성 입력에 대한 엔지니어링 검사 수이며 AI 정확도나 교육 효과의 점수가 아닙니다. 브라우저에서는 키보드 원문 열기/닫기·포커스 복귀, 발효 전·배정 전 확인 차단, 미래 영수증의 과거 상태 유입 차단, 이전 판의 역사 상태, 읽음/원문 조항 점검 분리, 영수증 내보내기, 오래 걸린 응답 뒤 맥락 변경, 거부 사이트 화면 비움, 390px 가로 넘침 없음을 확인했습니다.
+**34개 CPU 계약 테스트**와 JavaScript 구문 검사, 실제 Chrome 시나리오가 통과했습니다. 이는 이 작은 합성 입력에 대한 엔지니어링 검사 수이며 AI 정확도나 교육 효과의 점수가 아닙니다. 브라우저에서는 키보드 원문 열기/닫기·포커스 복귀, 발효 전·배정 전 확인 차단, 미래 영수증의 과거 상태 유입 차단, 이전 판의 역사 상태, 읽음/원문 조항 점검 분리, 영수증 내보내기, 오래 걸린 응답 뒤 맥락 변경, 거부 사이트 화면 비움, 390px 가로 넘침 없음을 확인했습니다.
 
 | 실제 캡처 | 보이는 상태 |
 |---|---|
 | ![A 현재와 B 미래 개정 대조](artifacts/demo/01-a-current-b-future.png) | A 적용, B 예정, 조항 대조 |
-| ![B 원문 출처 모달](artifacts/demo/02-future-source-explicit.png) | B 원문·해시·미래 발효 표시 |
-| ![B 발효 후 배정 전](artifacts/demo/03-effective-not-assigned.png) | 확인 동작 차단 |
-| ![읽음 확인 영수증](artifacts/demo/04-read-receipt-timeline.png) | A 이력과 B의 새 확인 분리 |
-| ![원문 조항 점검과 내보내기](artifacts/demo/05-assessment-and-export.png) | 별도 점검 영수증 |
-| ![교대 담당 브리핑](artifacts/demo/06-shift-lead-briefings.png) | 역할별 조항 의존 관계 |
-| ![390px 모바일 화면](artifacts/demo/07-mobile-390px.png) | 좁은 화면에서 조항별 세로 비교 |
-| ![나중 영수증 이후에도 유지되는 01:30 상태](artifacts/demo/08-early-view-after-later-receipts.png) | 02:00 영수증이 01:30 상태·이력·점검 가능 여부에 반영되지 않음 |
-| ![이전 A판 원문 상태](artifacts/demo/09-historical-superseded-source.png) | B 발효 뒤 A 원문은 역사적으로 대체된 판으로 표시 |
+| ![B 원문 출처 모달](artifacts/demo/02-future-source-explicit.png) | B 원문·해시·미래 발효 표시와 키보드 포커스 복귀 |
+| ![B 발효 후 배정 전](artifacts/demo/03-effective-not-assigned.png) | 발효와 역할 배정 사이에는 확인 동작 차단 |
+| ![읽음 확인 영수증](artifacts/demo/04-read-receipt-timeline.png) | A 이력과 B의 새 읽음 확인 분리 |
+| ![원문 조항 점검과 내보내기](artifacts/demo/05-assessment-and-export.png) | 별도 원문 조항 점검 영수증과 현 맥락 JSON 내보내기 |
+| ![과거 시점 상태](artifacts/demo/08-early-view-after-later-receipts.png) | 나중 영수증이 01:30 상태·이력·점검 가능 여부에 반영되지 않음 |
+| ![이전 A판 원문 상태](artifacts/demo/09-historical-superseded-source.png) | B 발효 뒤 A 원문을 대체된 역사 판으로 명시 |
+| ![교대 담당 브리핑](artifacts/demo/06-shift-lead-briefings.png) | 역할별 조항 의존 관계와 제외된 원문 |
+| ![390px 모바일 화면](artifacts/demo/07-mobile-390px.png) | 좁은 화면에서 조항별 세로 비교, 가로 넘침 없음 |
 
-[실제 Chrome 조작 영상](artifacts/demo/workflow.mp4)과 캡처는 합성 UI를 자동 조작해 얻은 원본 화면입니다. UI 성공처럼 보이도록 프레임을 합성하지 않았습니다.
+[실제 Chrome 조작 영상](artifacts/demo/workflow.mp4)과 캡처는 합성 UI를 자동 조작해 얻은 원본 화면입니다. UI 성공처럼 보이도록 프레임을 합성하지 않았습니다. [캡처 출처·SHA-256](artifacts/demo/PROVENANCE.md)에 새 화면과 이전 화면을 구분했습니다.
 
 ## 모델 상태와 한계
 
