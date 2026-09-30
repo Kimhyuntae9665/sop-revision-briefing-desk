@@ -1,0 +1,2 @@
+# Optional CPU tokenizer for the predeclared local Qwen preflight. No model weights.
+tokenizers==0.23.2

@@ -1,0 +1,18 @@
+{
+  "at": "2026-09-30T21:39:35.229209+00:00",
+  "request_sha256": "db55d89faf8003032a7e3592f79b45383771a1b29e6b456aa7b8e8ce7adc3adc",
+  "timeout_seconds": 60,
+  "num_ctx": 4096,
+  "num_predict": 768,
+  "output_plus_headroom_reserve": 832,
+  "model_digest": "359d7dd4bcdab3d86b87d73ac27966f4dbb9f5efdfcc75d34a8764a09474fae7",
+  "template_sha256": "2d54db2b9bb29ce7db54fea63a891f5859603813c555b1f88b5e0994652897f9",
+  "resources_before": {
+    "gpu_csv_mib_percent": "383, 7422, 0",
+    "meminfo_kib": {
+      "MemTotal": 32806192,
+      "MemAvailable": 25659980
+    }
+  },
+  "planned_generation_requests": 1
+}

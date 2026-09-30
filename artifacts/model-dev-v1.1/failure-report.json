@@ -1,0 +1,29 @@
+{
+  "case_id": "D1-helpdesk-upcoming",
+  "protocol_id": "P13-SOP-CITED-DRAFT-v1.1",
+  "development_only": true,
+  "generation_requests_sent": 1,
+  "retry_count": 0,
+  "http_status": 500,
+  "request_wall_s": 1.701,
+  "model_digest": "359d7dd4bcdab3d86b87d73ac27966f4dbb9f5efdfcc75d34a8764a09474fae7",
+  "template_sha256": "2d54db2b9bb29ce7db54fea63a891f5859603813c555b1f88b5e0994652897f9",
+  "input_tokens_cpu": 580,
+  "context_limit": 4096,
+  "output_budget": 768,
+  "headroom": 64,
+  "fit": true,
+  "format_or_source_copy_result": "not_evaluable_no_model_content",
+  "per_clause_semantic_review": {
+    "EVD-02": "not_evaluable_no_model_content",
+    "NEW-06": "not_evaluable_no_model_content",
+    "OLD-05": "not_evaluable_no_model_content",
+    "TKT-01": "not_evaluable_no_model_content"
+  },
+  "server_response_body": "not_captured_by_v1.1_runner_HTTPError_handler",
+  "raw_response_file_exists": false,
+  "server_log_observation": "Ollama runner loaded; /api/chat completed HTTP 500 in approximately 1.7 s; no explanatory error line in accessible service journal.",
+  "safe_release_check": "No blocked marker, no fuser lock owner, no loaded Ollama model in /api/ps, and no GPU compute job after the completed 500.",
+  "limitation": "HTTP error body was not read by this runner; the full error response cannot be reconstructed without a prohibited retry. No generated summary or token metrics were returned.",
+  "next_step": "Diagnose and version a future protocol/transport fix on CPU; obtain a separate explicit GPU grant before any new generation."
+}

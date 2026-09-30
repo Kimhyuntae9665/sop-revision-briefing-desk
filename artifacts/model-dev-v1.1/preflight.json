@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-30T21:38:42.876061+00:00",
+  "case_id": "D1-helpdesk-upcoming",
+  "development_only": true,
+  "generation_requests": 0,
+  "protocol_id": "P13-SOP-CITED-DRAFT-v1.1",
+  "protocol_sha256": "46f8f399a9a251d2c1ca2d0a025fa24ead570bcc7b0a26a6dbdf764ca5e807da",
+  "ollama_version": "0.17.7",
+  "model_tag": "qwen3:4b",
+  "model_tag_digest": "359d7dd4bcdab3d86b87d73ac27966f4dbb9f5efdfcc75d34a8764a09474fae7",
+  "model_layer_digest": "sha256:3e4cb14174460404e7a233e531675303b2fbf7749c02f91864fe311ab6344e4f",
+  "gguf_metadata_sha256": "82e92c41ef7f47671922432da66dce6a15bb89d54b429f410820f47e91583621",
+  "template_sha256": "2d54db2b9bb29ce7db54fea63a891f5859603813c555b1f88b5e0994652897f9",
+  "request_sha256": "db55d89faf8003032a7e3592f79b45383771a1b29e6b456aa7b8e8ce7adc3adc",
+  "schema_sha256": "24ffdda5c91607bb7a5fe7f075661a56692e597c47638594ebbb16c1074e79fc",
+  "model_input_sha256": "acec6c78d6f6a9b807315a715000e15cfdd0a61793e5d4865762a0742f162710",
+  "rendered_prompt_sha256": "e9456c240f7f5fc4a41921a4b2ccfaded4dcd56793da02c0e40bf3a0bb6b714b",
+  "rendered_prompt_utf8_bytes": 2100,
+  "input_tokens_cpu": 580,
+  "num_ctx": 4096,
+  "num_predict": 768,
+  "extra_headroom": 64,
+  "output_plus_headroom_reserve": 832,
+  "fits": true,
+  "think": false,
+  "truncate": false,
+  "shift": false,
+  "timeout_seconds": 60,
+  "concurrency": 1,
+  "render_wall_s": 1.65,
+  "runner_token_parity_proven": false,
+  "resources_after_render": {
+    "gpu_csv_mib_percent": "3550, 4255, 38",
+    "meminfo_kib": {
+      "MemTotal": 32806192,
+      "MemAvailable": 24783048
+    }
+  }
+}

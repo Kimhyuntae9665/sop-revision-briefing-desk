@@ -1,0 +1,126 @@
+{
+  "payload": {
+    "model": "qwen3:4b",
+    "messages": [
+      {
+        "role": "system",
+        "content": "당신은 독립 합성 공장 IT SOP의 변경 설명 초안을 작성한다. 입력에는 서버가 이 역할에 허용한 A/B 원문 조항 쌍만 있다. 정확히 각 쌍에 하나의 한국어 짧은 초안을 만든다. 조항 ID, 변경 종류, 원문 ID와 문장은 입력 그대로 복사한다. 없는 쪽은 빈 문자열로 둔다. 새 사실, 이유, 숫자, 적용·발효·승인·배정·교육 완료·역량·운영 권한을 추정하거나 주장하지 않는다. 내용 승인과 상태 판정은 서버와 사람이 한다. 제공된 JSON 스키마 외 텍스트를 출력하지 않는다."
+      },
+      {
+        "role": "user",
+        "content": "/no_think\n다음 admitted_pairs만 사용해 변경 설명 초안을 작성하세요. pairs의 순서와 개수를 유지하고, before/after 원문 ID와 문장을 정확히 옮기세요. summary_ko는 한 쌍의 문자 그대로의 변화만 120자 이하로 설명하세요. 그 밖의 상태나 효과는 쓰지 마세요.\n{\"admitted_pairs\":{\"document_id\":\"IT-SOP-007\",\"pairs\":[{\"after_quote\":\"첨부 증거 이름은 ticket-id_utc_source 형식으로 기록한다.\",\"after_source_id\":\"B/EVD-02\",\"before_quote\":\"첨부 증거 이름은 ticket-id_utc 형식으로 기록한다.\",\"before_source_id\":\"A/EVD-02\",\"change_type\":\"changed\",\"clause_id\":\"EVD-02\"},{\"after_quote\":\"증거에는 사건 시각과 자료 가용 시각을 별도로 기록한다.\",\"after_source_id\":\"B/NEW-06\",\"before_quote\":\"\",\"before_source_id\":\"\",\"change_type\":\"added\",\"clause_id\":\"NEW-06\"},{\"after_quote\":\"\",\"after_source_id\":\"\",\"before_quote\":\"이메일 첨부 색인을 별도 표에 유지한다.\",\"before_source_id\":\"A/OLD-05\",\"change_type\":\"removed\",\"clause_id\":\"OLD-05\"},{\"after_quote\":\"티켓 종류는 mes_integration, line_terminal, reporting 중 하나로 기록한다.\",\"after_source_id\":\"B/TKT-01\",\"before_quote\":\"티켓 종류는 incident 또는 request 중 하나로 기록한다.\",\"before_source_id\":\"A/TKT-01\",\"change_type\":\"changed\",\"clause_id\":\"TKT-01\"}],\"role\":\"helpdesk_agent\",\"site\":\"DEMO-PLANT-A\"}}"
+      }
+    ],
+    "format": {
+      "additionalProperties": false,
+      "properties": {
+        "draft_only": {
+          "enum": [
+            true
+          ],
+          "type": "boolean"
+        },
+        "protocol_id": {
+          "enum": [
+            "P13-SOP-CITED-DRAFT-v1.1"
+          ],
+          "type": "string"
+        },
+        "summaries": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "after_quote": {
+                "type": "string"
+              },
+              "after_source_id": {
+                "type": "string"
+              },
+              "before_quote": {
+                "type": "string"
+              },
+              "before_source_id": {
+                "type": "string"
+              },
+              "change_type": {
+                "enum": [
+                  "changed",
+                  "added",
+                  "removed"
+                ],
+                "type": "string"
+              },
+              "clause_id": {
+                "type": "string"
+              },
+              "summary_ko": {
+                "maxLength": 120,
+                "minLength": 1,
+                "pattern": "[가-힣]",
+                "type": "string"
+              }
+            },
+            "required": [
+              "clause_id",
+              "change_type",
+              "before_source_id",
+              "before_quote",
+              "after_source_id",
+              "after_quote",
+              "summary_ko"
+            ],
+            "type": "object"
+          },
+          "maxItems": 4,
+          "minItems": 4,
+          "type": "array"
+        }
+      },
+      "required": [
+        "protocol_id",
+        "draft_only",
+        "summaries"
+      ],
+      "type": "object"
+    },
+    "stream": false,
+    "think": false,
+    "truncate": false,
+    "shift": false,
+    "keep_alive": "30s",
+    "options": {
+      "num_ctx": 4096,
+      "num_predict": 768,
+      "temperature": 0
+    }
+  },
+  "server_envelope": {
+    "as_of": "2026-10-01T10:00:00Z",
+    "current_revision": "A",
+    "upcoming_revision": "B",
+    "source_manifest_hash": "665f70d8fdd5c808d7ef70c51b8a79c3a7ed6844046a4149be1978955291f281",
+    "provenance": [
+      {
+        "clause_id": "EVD-02",
+        "before_source_hash": "2c2c97a3cfb548a99a59318ed4ee1767c0322d55e7b5602e3416a67794ce3e6b",
+        "after_source_hash": "b9fce36161c78a77e77a1d1fc8bf872d185ba9fcc51430540fd8c6f3fae9722c"
+      },
+      {
+        "clause_id": "NEW-06",
+        "before_source_hash": null,
+        "after_source_hash": "b9fce36161c78a77e77a1d1fc8bf872d185ba9fcc51430540fd8c6f3fae9722c"
+      },
+      {
+        "clause_id": "OLD-05",
+        "before_source_hash": "2c2c97a3cfb548a99a59318ed4ee1767c0322d55e7b5602e3416a67794ce3e6b",
+        "after_source_hash": null
+      },
+      {
+        "clause_id": "TKT-01",
+        "before_source_hash": "2c2c97a3cfb548a99a59318ed4ee1767c0322d55e7b5602e3416a67794ce3e6b",
+        "after_source_hash": "b9fce36161c78a77e77a1d1fc8bf872d185ba9fcc51430540fd8c6f3fae9722c"
+      }
+    ],
+    "requires_content_review": true
+  }
+}
