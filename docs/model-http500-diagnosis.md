@@ -13,11 +13,11 @@ The exact saved `summary_ko` JSON Schema has `"pattern": "[가-힣]"`. The insta
 
 ## Separately versioned CPU proposal
 
-`docs/model-v1.2-candidate.json` is a proposal, not an executed or frozen evaluation:
+`docs/model-v1.2-frozen.json` is a separately frozen development protocol, not an executed or evaluated model result:
 - v1.1 file SHA-256: `46f8f399a9a251d2c1ca2d0a025fa24ead570bcc7b0a26a6dbdf764ca5e807da`
-- candidate file SHA-256: `9f0916cf5276962724c5c9ac8f89aa05692c02b92813d87d90a61a78d2047f12`
+- frozen file SHA-256: `e74a825644b39038c9c2e49be0bcbeac49c472e0f6c67584fb0ef6f2035ffd6c`
 - Change output protocol ID to v1.2 and remove only the unsupported `pattern` field from `summary_ko`; preserve its `minLength: 1` and `maxLength: 120`. A CPU comparison test guards against other runtime/schema/input changes.
 - Preserve the already-existing `model.draft_protocol.check_draft` Hangul and length gate for emitted text. The model grammar would no longer constrain Hangul during decoding; outputs without Hangul must fail CPU admission. Exact source-copy and independent human semantic checks remain required.
-- Before any generation, implement a distinct v1.2 runner with a fresh output directory and attempt marker, the existing bounded HTTP error-body capture, version-aware CPU validator, actual template/token preflight, shared single-flight lock and timeout barrier. Then obtain a new explicit GPU lease. Allow exactly one development call on D1, with no automatic retry; preserve HTTP body or complete raw output. Do not evaluate held-out cases from that call.
+- The distinct v1.2 runner and version-aware validator are now implemented, with a fresh output directory and attempt marker, bounded HTTP error-body capture, actual template/token preflight, shared single-flight lock and timeout barrier. The runner is frozen but has not been invoked. Obtain a new explicit GPU lease before preflight or generation. Allow exactly one development call on D1, with no automatic retry; preserve HTTP body or complete raw output. Do not evaluate held-out cases from that call.
 
 If the reviewer needs literal confirmation of the original HTTP error, only a separately authorized diagnostic generation with the **unchanged** saved v1.1 payload could capture it using the hardened bounded transport. That would be a new GPU request and is not needed to identify the documented schema incompatibility. No generation or service change was made during this CPU diagnosis.
