@@ -6,7 +6,7 @@ Before generation, scripts/development_qwen_v1_1.py performs a render-only call 
 
 The bounded single-flight guard is copied from quality-investigation-chronology commit cf90af5a2a15d34ad00a3391f6d6ac5ff834deb3, which credits project 01 source commit 721949d17891bbb009b31b19a20469bd0946991c (MIT). The CPU GGUF tokenizer is copied from korean-equipment-evidence-desk commit 858f2d93382c9438525f5dbb7dad844e9f51faff (MIT), without copying weights. The already-installed optional tokenizers engine 0.23.2 is used; no install or download is part of this run.
 
-These are request limits and safeguards, not measured fit or model performance. The CPU source copy validator may pass while a summary still makes unsupported claims. Human semantic review is separate. The raw server response, including any failure, and timings are retained under artifacts/model-dev-v1.1.
+These are request limits and safeguards, not measured fit or model performance. The CPU source copy validator may pass while a summary still makes unsupported claims. Human semantic review is separate. A successful raw server response would be retained under artifacts/model-dev-v1.1. The executed v1.1 HTTPError path retained status and timing but not its error body; the missing body is documented below.
 
 
 ## Actual one-call result, 2026-09-30 21:39 UTC
@@ -16,3 +16,7 @@ The render-only preflight produced 580 CPU-reconstructed prompt tokens. With 768
 Exactly one generation request was sent. It received HTTP 500 after 1.701 seconds, with no retry. The Ollama service journal shows a completed /api/chat 500 after loading the model but no explanatory message. The runner's HTTPError handler recorded the status and time but did not read the error body; therefore the full raw HTTP error response was **not preserved and cannot be recovered** from this attempt. This evidence gap is explicit in artifacts/model-dev-v1.1/failure-report.json. No generated content, source copy result, Korean summary or per-clause semantic result can be evaluated. This is not a model-quality failure score.
 
 After the response, the shared lock had no owner, the timeout marker was absent, /api/ps had no loaded model and nvidia-smi showed no compute process. GPU ownership was released. Any corrected future attempt requires a separately versioned runner/protocol and explicit new GPU grant. Never repeat this v1.1 attempt; its attempt marker remains.
+
+## Post-run CPU transport hardening
+
+The failed request above was executed from commit a091d497fdbc667295f7635130ac17aae5c3d447. Independent review then found that the transport followed HTTP redirects by default and did not bound /api/version and /api/tags reads. Later code disables proxy use and redirects, caps every read at 1,000,000 bytes, and captures bounded HTTP error bodies in a fresh future run. A local CPU test checks redirect refusal and oversized read rejection. This code change does not alter the recorded failed request, restore its missing HTTP body, or authorize a new model call.

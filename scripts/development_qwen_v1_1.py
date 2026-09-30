@@ -41,6 +41,16 @@ TIMEOUT = 60
 MAX_RESPONSE = 1_000_000
 
 
+class NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, request, fp, code, msg, headers, newurl):
+        return None
+
+
+# Ignore proxy environment and reject redirects so the synthetic source prompt
+# can only reach the literal loopback base above. Added after the failed v1.1 call.
+LOCAL_OPENER = urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect())
+
+
 def now():
     return datetime.now(timezone.utc).isoformat()
 
@@ -72,7 +82,7 @@ def atomic_bytes(name, value):
 def post(endpoint, payload, timeout=10):
     req = urllib.request.Request(BASE + endpoint, data=canonical(payload),
                                  headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=timeout) as response:
+    with LOCAL_OPENER.open(req, timeout=timeout) as response:
         data = response.read(MAX_RESPONSE + 1)
     if len(data) > MAX_RESPONSE:
         raise RuntimeError("read_only_response_too_large")
@@ -80,8 +90,11 @@ def post(endpoint, payload, timeout=10):
 
 
 def get(endpoint, timeout=10):
-    with urllib.request.urlopen(BASE + endpoint, timeout=timeout) as response:
-        return json.load(response)
+    with LOCAL_OPENER.open(BASE + endpoint, timeout=timeout) as response:
+        data = response.read(MAX_RESPONSE + 1)
+    if len(data) > MAX_RESPONSE:
+        raise RuntimeError("read_only_response_too_large")
+    return json.loads(data)
 
 
 class AmbiguousTransportError(RuntimeError):
@@ -102,7 +115,7 @@ def bounded_chat_bytes(payload, deadline_s=TIMEOUT):
     signal.setitimer(signal.ITIMER_REAL, deadline_s)
     try:
         try:
-            with urllib.request.urlopen(req, timeout=deadline_s) as response:
+            with LOCAL_OPENER.open(req, timeout=deadline_s) as response:
                 declared = response.headers.get("Content-Length")
                 if declared is not None and int(declared) > MAX_RESPONSE:
                     raise ValueError("response_byte_budget")
@@ -263,7 +276,16 @@ def run_once():
         try:
             raw = bounded_chat_bytes(payload, TIMEOUT)
         except urllib.error.HTTPError as error:
-            atomic_json("http-error.json", {"at": now(), "status": error.code, "request_wall_s": round(time.monotonic()-begun,3)})
+            # Post-run hardening only: the executed a091d49 version did not
+            # read the HTTP 500 body. A future authorized run needs a new OUT.
+            body = error.read(MAX_RESPONSE + 1)
+            complete = len(body) <= MAX_RESPONSE
+            atomic_bytes("raw-http-error-body.bin", body[:MAX_RESPONSE])
+            atomic_json("http-error.json", {
+                "at": now(), "status": error.code,
+                "request_wall_s": round(time.monotonic()-begun, 3),
+                "body_bytes_saved": min(len(body), MAX_RESPONSE),
+                "body_complete_within_budget": complete})
             raise
         except AmbiguousTransportError as error:
             guard._latch_timeout(lease)
