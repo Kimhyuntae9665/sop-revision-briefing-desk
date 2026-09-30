@@ -53,7 +53,8 @@ async def main():
                 headers={"Content-Type":"application/json", "Host":"evil.example"})
             assert forged.status == 403
             await expect(page.locator("#upcoming-revision")).to_contain_text("B")
-            await expect(page.locator(".diff-row")).to_have_count(6)
+            await expect(page.locator(".diff-row")).to_have_count(5)
+            assert "HAND-04" not in await page.locator("#diff-rows").inner_text()
             await expect(page.locator(".queue-card")).to_have_count(3)
             assert await page.locator(".action.primary").count()==0
             await page.screenshot(path=str(OUT/"01-a-current-b-future.png"),full_page=True)
@@ -118,6 +119,9 @@ async def main():
             assert not await page.locator("#source-dialog").evaluate("(e)=>e.open")
             await page.unroute("**/api/source?*",delay_source)
             await expect(page.locator(".queue-card")).to_have_count(3)
+            assert "EVD-02" not in await page.locator("#diff-rows").inner_text()
+            denied_source = await page.request.get(URL+"api/source?revision=B&clause_id=EVD-02&as_of=2026-10-02T02%3A00%3A00Z&role=shift_lead&site=DEMO-PLANT-A")
+            assert denied_source.status == 403
             await page.screenshot(path=str(OUT/"06-shift-lead-briefings.png"),full_page=True)
             await asyncio.sleep(.8)
             await page.locator("#site").select_option("DEMO-PLANT-B")

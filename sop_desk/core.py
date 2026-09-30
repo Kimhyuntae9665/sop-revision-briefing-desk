@@ -107,12 +107,17 @@ class Desk:
         upcoming.sort(key=lambda r: parse_time(self.data["revisions"][r]["effective_at"]))
         return current, upcoming[0] if upcoming else None, states
 
-    def diff(self, before="A", after="B"):
+    def diff(self, before="A", after="B", role=None):
         old = {c["clause_id"]: c for c in self.data["revisions"][before]["clauses"]}
         new = {c["clause_id"]: c for c in self.data["revisions"][after]["clauses"]}
         rows = []
         for clause_id in sorted(old.keys() | new.keys()):
             left, right = old.get(clause_id), new.get(clause_id)
+            if role is not None:
+                left = left if left and role in left["roles"] else None
+                right = right if right and role in right["roles"] else None
+                if left is None and right is None:
+                    continue
             kind = "added" if left is None else "removed" if right is None else \
                    "unchanged" if left == right else "changed"
             rows.append({"clause_id": clause_id, "kind": kind, "before": left, "after": right})
@@ -120,13 +125,15 @@ class Desk:
 
     def mapping(self, role):
         rows = self.diff()
-        changed = {row["clause_id"] for row in rows if row["kind"] != "unchanged"}
-        entries = self.data["dependencies"]["dependencies"]
+        changed = {row["clause_id"] for row in rows if row["kind"] != "unchanged" and
+                   (role in (row["before"] or {}).get("roles", []) or
+                    role in (row["after"] or {}).get("roles", []))}
+        entries = [e for e in self.data["dependencies"]["dependencies"] if role in e["roles"]]
         known = set().union(*(set(e["clause_ids"]) for e in entries)) if entries else set()
         unknown = sorted(changed - known)
         affected = []
         for entry in entries:
-            if role in entry["roles"] and changed.intersection(entry["clause_ids"]):
+            if changed.intersection(entry["clause_ids"]):
                 affected.append({**entry, "changed_clause_ids": sorted(changed.intersection(entry["clause_ids"]))})
         return {"affected": affected, "unknown_clause_ids": unknown, "complete": not unknown,
                 "changed_clause_ids": sorted(changed)}
@@ -188,7 +195,7 @@ class Desk:
                 "current_revision": current, "upcoming_revision": upcoming,
                 "excluded_revisions": [r for r, s in lifecycle.items() if s["rejected"]],
                 "revision_states": {r: {k: v for k, v in s.items() if k != "events"} for r, s in lifecycle.items()},
-                "diff": self.diff() if briefing_visible else [], "mapping": mapping, "queue": queue, "history": history,
+                "diff": self.diff(role=role) if briefing_visible else [], "mapping": mapping, "queue": queue, "history": history,
                 "draft_is_instruction": False, "ack_is_competence": False}
 
     def source(self, revision, clause_id, as_of=DEFAULT_AS_OF, role="helpdesk_agent", site=SITE):
@@ -203,6 +210,8 @@ class Desk:
                        if c["clause_id"] == clause_id), None)
         if clause is None:
             raise KeyError("clause_not_found")
+        if role not in clause["roles"]:
+            raise PermissionError("clause_not_in_role_scope")
         return {"revision": revision, "clause": clause, "source_hash":
                 self.data["manifest"]["revisions"][revision]["sha256"],
                 "state": "rejected_draft" if lifecycle["rejected"] else

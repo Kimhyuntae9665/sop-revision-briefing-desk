@@ -51,6 +51,18 @@ class ContractTests(unittest.TestCase):
         for role, expected in gold["role_briefings"].items():
             self.assertEqual([b["briefing_id"] for b in self.desk.mapping(role)["affected"]], expected)
 
+    def test_role_scoped_diff_and_source(self):
+        helpdesk = self.desk.state(DEFAULT_AS_OF, role="helpdesk_agent")
+        lead = self.desk.state(DEFAULT_AS_OF, role="shift_lead")
+        self.assertNotIn("HAND-04", [r["clause_id"] for r in helpdesk["diff"]])
+        self.assertNotIn("EVD-02", [r["clause_id"] for r in lead["diff"]])
+        self.assertIn("EVD-02", [r["clause_id"] for r in helpdesk["diff"]])
+        self.assertIn("HAND-04", [r["clause_id"] for r in lead["diff"]])
+        with self.assertRaisesRegex(PermissionError, "clause_not_in_role_scope"):
+            self.desk.source("B", "EVD-02", DEFAULT_AS_OF, role="shift_lead")
+        with self.assertRaisesRegex(PermissionError, "clause_not_in_role_scope"):
+            self.desk.source("A", "HAND-04", DEFAULT_AS_OF, role="helpdesk_agent")
+
     def test_missing_dependency_blocks_completeness(self):
         data = copy.deepcopy(self.desk.data)
         data["dependencies"]["dependencies"] = [e for e in data["dependencies"]["dependencies"]
@@ -60,6 +72,16 @@ class ContractTests(unittest.TestCase):
         self.assertEqual(state["mapping"]["unknown_clause_ids"], ["OLD-05"])
         self.assertFalse(state["mapping"]["complete"])
         self.assertTrue(all(not q["ack_allowed"] for q in state["queue"]))
+
+    def test_role_mapping_gap_blocks_only_affected_role(self):
+        data = copy.deepcopy(self.desk.data)
+        entry = next(e for e in data["dependencies"]["dependencies"] if e["briefing_id"] == "BR-EVD")
+        entry["roles"] = ["shift_lead"]
+        changed = Desk(data)
+        helpdesk = changed.state("2026-10-02T02:00:00Z", role="helpdesk_agent")
+        self.assertEqual(helpdesk["mapping"]["unknown_clause_ids"], ["EVD-02", "NEW-06"])
+        self.assertFalse(helpdesk["mapping"]["complete"])
+        self.assertTrue(all(not item["ack_allowed"] for item in helpdesk["queue"]))
 
     def test_future_revision_does_not_replace_A(self):
         state = self.desk.state(DEFAULT_AS_OF)
