@@ -1,0 +1,3 @@
+fixtures/** text eol=lf
+tests/frozen_expected.json text eol=lf
+docs/contract.md text eol=lf

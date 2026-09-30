@@ -15,6 +15,16 @@
       "SEC-03"
     ]
   },
+  "mutation_cases": [
+    {
+      "ack_allowed": false,
+      "expected_unknown_clause_ids": [
+        "OLD-05"
+      ],
+      "mapping_complete": false,
+      "mutation": "remove BR-OLD dependency entry from a copied mapping"
+    }
+  ],
   "role_briefings": {
     "helpdesk_agent": [
       "BR-TKT",
@@ -63,6 +73,6 @@
       "upcoming": null
     }
   ],
-  "source_manifest_sha256": "cd8a0120907226c4831ae7e2399921f57d8870e69d45f4a0a1b7b605065a1b75",
+  "source_manifest_sha256": "665f70d8fdd5c808d7ef70c51b8a79c3a7ed6844046a4149be1978955291f281",
   "version": "P13-FROZEN-GOLD-v1"
 }

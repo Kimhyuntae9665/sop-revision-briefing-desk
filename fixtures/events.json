@@ -31,19 +31,29 @@
   {
     "at": "2026-09-10T08:00:00Z",
     "briefing_id": "BR-TKT",
+    "effective_at": "2026-09-01T00:00:00Z",
     "event_id": "EV-A-5",
     "kind": "read_acknowledged",
+    "mapping_hash": "f049b8e863367ac7db23f8f0fe61d3ed4a3e7eac28bf21198217a7abc1b509e2",
+    "mapping_version": "1",
     "revision": "A",
-    "role": "helpdesk_agent"
+    "role": "helpdesk_agent",
+    "site": "DEMO-PLANT-A",
+    "source_hash": "2c2c97a3cfb548a99a59318ed4ee1767c0322d55e7b5602e3416a67794ce3e6b"
   },
   {
     "at": "2026-09-11T08:00:00Z",
     "briefing_id": "BR-TKT",
+    "effective_at": "2026-09-01T00:00:00Z",
     "event_id": "EV-A-6",
     "kind": "assessment_recorded",
+    "mapping_hash": "f049b8e863367ac7db23f8f0fe61d3ed4a3e7eac28bf21198217a7abc1b509e2",
+    "mapping_version": "1",
     "result": "self_check_passed",
     "revision": "A",
-    "role": "helpdesk_agent"
+    "role": "helpdesk_agent",
+    "site": "DEMO-PLANT-A",
+    "source_hash": "2c2c97a3cfb548a99a59318ed4ee1767c0322d55e7b5602e3416a67794ce3e6b"
   },
   {
     "at": "2026-09-20T00:00:00Z",
