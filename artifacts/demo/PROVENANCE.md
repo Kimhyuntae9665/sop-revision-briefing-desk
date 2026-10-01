@@ -17,5 +17,5 @@ The screenshot files in `artifacts/demo-historical-v1` show the **previous** dar
 | `08-early-view-after-later-receipts.png` | `a416897c1b7d7c9a19a6d378cc7f216ca85982251bbe4e6876a8ad26f659eb8c` |
 | `09-historical-superseded-source.png` | `aaad314c2d17ffed86b0ee62cdc86e7d868c43cff005b01c65c39595940f5b18` |
 | `06-shift-lead-briefings.png` | `7a01128793f4a2e84474f2eba5a41930e927bcf5bb426a6b296fd672907f9a9f` |
-| `07-mobile-390px.png` | `4006894d87e2fa287dec191db216bfb14a04388596fc0fbe5143469f4c33dffb` |
-| `workflow.mp4` | `e0639fa8ca7e847d8cd493cdde0df69f42c88f11992afc48ef4f8834f9ec38ca` |
+| `07-mobile-390px.png` | `a809a4a5479dcb6a9931e3979ee0245cd1c820730c2dbb35cc64ac567bbb83fa` |
+| `workflow.mp4` | `4adf50a71998697b8a33d0eb01e07cf9c8ce8eed354ed8f5d65b314d9e4186dc` |

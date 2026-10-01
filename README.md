@@ -55,7 +55,7 @@ Python 3.10+ 표준 라이브러리만 필요합니다.
 | 실제 캡처 | 보이는 상태 |
 |---|---|
 | ![A 현재와 B 미래 개정 대조](artifacts/demo/01-a-current-b-future.png) | A 적용, B 예정, 조항 대조 |
-| ![B 원문 출처 모달](artifacts/demo/02-future-source-explicit.png) | B 원문·해시·미래 발효 표시와 키보드 포커스 복귀 |
+| ![B 원문 출처 모달](artifacts/demo/02-future-source-explicit.png) | B 원문·해시·미래 발효 표시; 열린 모달의 닫기 버튼 초점 |
 | ![B 발효 후 배정 전](artifacts/demo/03-effective-not-assigned.png) | 발효와 역할 배정 사이에는 확인 동작 차단 |
 | ![읽음 확인 영수증](artifacts/demo/04-read-receipt-timeline.png) | A 이력과 B의 새 읽음 확인 분리 |
 | ![원문 조항 점검과 내보내기](artifacts/demo/05-assessment-and-export.png) | 별도 원문 조항 점검 영수증과 현 맥락 JSON 내보내기 |

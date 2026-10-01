@@ -161,10 +161,18 @@ async def main():
             await expect(phone.locator("#current-revision")).to_have_text("A")
             dims=await phone.evaluate("({scroll:document.documentElement.scrollWidth,view:innerWidth})")
             assert dims["scroll"]<=dims["view"],dims
-            sizes=await phone.evaluate("""()=>({
-              body:parseFloat(getComputedStyle(document.querySelector('.clause p')).fontSize),
-              select:parseFloat(getComputedStyle(document.querySelector('select')).fontSize)})""")
+            sizes=await phone.evaluate("""()=>{
+              const title=document.querySelector('.top h1');
+              return {
+                body:parseFloat(getComputedStyle(document.querySelector('.clause p')).fontSize),
+                select:parseFloat(getComputedStyle(document.querySelector('select')).fontSize),
+                title:parseFloat(getComputedStyle(title).fontSize),
+                titleSingleLine:getComputedStyle(title).whiteSpace==='nowrap',
+                titleFits:title.scrollWidth<=title.clientWidth
+              };
+            }""")
             assert sizes["body"]>=14 and sizes["select"]>=16,sizes
+            assert 24<=sizes["title"]<=28 and sizes["titleSingleLine"] and sizes["titleFits"],sizes
             await phone.screenshot(path=str(OUT/"07-mobile-390px.png"),full_page=True)
             await mobile.close()
             await browser.close()
